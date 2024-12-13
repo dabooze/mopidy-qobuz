@@ -16,5 +16,6 @@ def qobuz_config():
             "search_album_count": 10,
             "search_track_count": 10,
             "search_artist_count": 0,
+            "cache": False,
         },
     }

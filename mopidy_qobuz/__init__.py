@@ -39,6 +39,9 @@ class Extension(ext.Extension):
         schema["search_track_count"] = config.Integer()
         schema["search_album_count"] = config.Integer()
         schema["custom_libraries"] = config.Path(optional=True)
+        schema["cache"] = config.Boolean(optional=True)
+        schema["cache_dir"] = config.Path(optional=True)
+        schema["cache_max_size"] = config.Integer()
 
         return schema
 

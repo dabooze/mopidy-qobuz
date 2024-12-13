@@ -77,6 +77,14 @@ The following configuration values are available:
 - ``qobuz/custom_libraries``: An optional directory containing custom YAML library files. 
   See ``tests/data/library.yml`` for more info.
 
+- ``qobuz/cache``: If the experimental cache should be enabled or not.
+  Defaults to ``false``.
+
+- ``qobuz/cache_dir``: Directory for the cache. Defaults to ``$XDG_CACHE_DIR/mopidy_qobuz``.
+
+- ``qobuz/cache_max_size``: Total size of the cache in GBs. Defaults to ``2``.
+
+
 Status
 =================
 This extension is in alpha development.

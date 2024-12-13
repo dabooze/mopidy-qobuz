@@ -9,6 +9,7 @@ from mopidy_qobuz import client as qclient
 from mopidy_qobuz import library
 from mopidy_qobuz import playback
 from mopidy_qobuz import playlists
+from mopidy_qobuz import cache
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,22 @@ class QobuzBackend(pykka.ThreadingActor, backend.Backend):
         self._config = config
         self._audio = audio
         self._client = None
+
+        self.cache = None
+
+        config = config["qobuz"]
+
+        if config["cache"]:
+            self.cache = cache.TrackUrlCache(
+                cache.FileCacheStorage(
+                    config["cache_dir"],
+                    max_total_size_bytes=config["cache_max_size"] * (1024**3),
+                ),
+                download_timeout=300,
+                max_retries=2,
+            )
+            logger.info("Cache backend for Qobuz ready: %s", self.cache)
+
         self.playlists = playlists.QobuzPlaylistsProvider(self)
         self.library = library.QobuzLibraryProvider(self)
         self.playback = playback.QobuzPlaybackProvider(audio, self)

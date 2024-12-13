@@ -57,4 +57,14 @@ class QobuzPlaybackProvider(backend.PlaybackProvider):
 
         logger.info("Valid track found: %s", downloadable)
 
+        if self.backend.cache is not None:
+            item = self.backend.cache.cache_track_url(
+                track_id, downloadable.url, dict(format_id=self._format_id)
+            )
+
+            if item is None:
+                return downloadable.url
+
+            return f"file://{item}"
+
         return downloadable.url

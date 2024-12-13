@@ -19,6 +19,9 @@ def test_get_default_config():
     assert "search_track_count = 10" in config
     assert "search_artist_count = 0" in config
     assert "custom_libraries =" in config
+    assert "cache = false" in config
+    assert "cache_dir =" in config
+    assert "cache_max_size =" in config
 
 
 def test_get_config_schema():
@@ -36,6 +39,9 @@ def test_get_config_schema():
     assert "search_track_count" in schema
     assert "search_artist_count" in schema
     assert "custom_libraries" in schema
+    assert "cache" in schema
+    assert "cache_dir" in schema
+    assert "cache_max_size" in schema
 
 
 def test_setup():
