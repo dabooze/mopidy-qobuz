@@ -44,6 +44,7 @@ to the Mopidy configuration file::
     app_id = foo
     secret = bar
     quality = 6
+    cache = false
 
 
 See this `gist <https://gist.github.com/vitiko98/bb89fd203d08e285d06abf40d96db592>`_ to get
