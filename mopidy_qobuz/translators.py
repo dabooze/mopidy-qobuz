@@ -67,9 +67,13 @@ def to_track(track: Track, hires_required=False):
     if album is None:
         return None
 
+    # Add quality tag to track name
+    name = _track_complete_title(track)
+    name = _add_quality_tag(track, name)
+
     return models.Track(
         uri=track.uri,
-        name=_track_complete_title(track),
+        name=name,
         artists=[artist],
         album=album,
         date=album.date,
@@ -114,8 +118,20 @@ def _complete_ref_title(item):
     return title
 
 
+def _add_quality_tag(track, title):
+    """Add quality watermark [96kHz] or [Hi-Res] to title if hi-res."""
+    if track.hires_streamable:
+        if track.maximum_sampling_rate:
+            return f"{title} [{int(track.maximum_sampling_rate)}kHz]"
+        else:
+            return f"{title} [Hi-Res]"
+    return title
+
+
 def _track_ref_title(track):
     title = _track_complete_title(track)
+    title = _add_quality_tag(track, title)
+
     if track.artist:
         return f"{track.artist.name} - {title}"
 
