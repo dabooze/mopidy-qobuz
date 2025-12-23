@@ -66,6 +66,9 @@ _FAVORITE_ARTISTS = models.Ref.directory(
 _FAVORITE_PLAYLISTS = models.Ref.directory(
     uri="qobuz:favorites:playlists", name="Playlists"
 )
+_FAVORITE_TRACKS = models.Ref.directory(
+    uri="qobuz:favorites:tracks", name="Tracks"
+)
 
 _FEATURED = models.Ref.directory(uri="qobuz:featured", name="Featured (Recommended)")
 _FEATURED_PLAYLISTS = models.Ref.directory(
@@ -141,6 +144,11 @@ def _favorite_contents(*, uri, client, config):
         to_return = [
             translators.to_artist_ref(artist)
             for artist in user.get_favorites_artists(limit=500)
+        ]
+    elif uri.startswith("qobuz:favorites:tracks"):
+        to_return = [
+            translators.to_track_ref(track, False)  # False = show all, not just hi-res
+            for track in user.get_favorites_tracks(limit=500)
         ]
     elif uri.startswith("qobuz:favorites:playlists"):
         to_return = [
@@ -305,7 +313,7 @@ def _filter_none(items):
 
 _STATIC = {
     "qobuz:directory": [_FAVORITES, _FEATURED, _CUSTOM_DIRS],
-    "qobuz:favorites": [_FAVORITE_ALBUMS, _FAVORITE_ARTISTS, _FAVORITE_PLAYLISTS],
+    "qobuz:favorites": [_FAVORITE_ALBUMS, _FAVORITE_ARTISTS, _FAVORITE_TRACKS, _FAVORITE_PLAYLISTS],
     "qobuz:featured": [_FEATURED_ALBUMS, _FEATURED_PLAYLISTS, _FEATURED_FOCUS],
     "qobuz:featured:albums": _featured_album_tags(),
     "qobuz:featured:focus": _genre_contents("qobuz:featured:focus"),
@@ -317,7 +325,8 @@ _STATIC = {
 _CALLABLES = {
     "qobuz:favorites:albums": _favorite_contents,  # list of albums or playlists
     "qobuz:favorites:playlists": _favorite_contents,  # list of albums or playlists
-    "qobuz:favorites:artists": _favorite_contents,  # list of albums or playlists
+    "qobuz:favorites:artists": _favorite_contents,  # list of artists
+    "qobuz:favorites:tracks": _favorite_contents,   # list of favorite tracks
     "qobuz:featured:playlists:genres:": _browse_featured_playlist_genres,
     "qobuz:featured:playlists:tags:": _browse_featured_playlist_tags,
     "qobuz:featured:albums:tags:": _browse_featured_album_tags,

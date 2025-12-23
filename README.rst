@@ -6,6 +6,14 @@ Mopidy-Qobuz
 
 Requires a non-free account.
 
+Recent Updates
+==============
+
+**2025-12-23** (Fork: `dabooze/mopidy-qobuz <https://github.com/dabooze/mopidy-qobuz>`_)
+
+- Added favorite tracks browsing support (``qobuz:favorites:tracks``)
+- Tracks now appear alongside Albums, Artists, and Playlists in the Favorites menu
+
 Features
 ============
 * Up to 24b/196k playback

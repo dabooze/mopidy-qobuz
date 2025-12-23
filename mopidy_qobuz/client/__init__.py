@@ -677,6 +677,18 @@ class User:
         except KeyError:
             return []
 
+    def get_favorites_tracks(self, type="tracks", offset=0, limit=500):
+        """Get user's favorite tracks from Qobuz."""
+        response = self._client.get(
+            "favorite/getUserFavorites",
+            {"type": type, "offset": offset, "limit": limit},
+        ).json()
+
+        try:
+            return [Track(self._client, data) for data in response["tracks"]["items"]]
+        except KeyError:
+            return []
+
     def modify_favorites(self, method="create", albums=None, artists=None, tracks=None):
         data = {
             "artist_ids": _to_str_list(artists),
